@@ -1,7 +1,5 @@
 from selenium import webdriver
-from string import Template
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver import ActionChains
 import time
 
 
