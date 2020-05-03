@@ -4,7 +4,7 @@ This is a simple script using Selenium to simulate user actions in the browser.
 
 ![](./Demo/demo.gif)
 
-## __Two Ways to Initialize the Project__
+## __Two Ways to Run the Project__
 
 ### SETUP:
 1) Download Chrome Webdriver from: https://chromedriver.chromium.org/
