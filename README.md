@@ -2,6 +2,8 @@
 Migrate Instagram Subscriptions to new account.
 This is a simple script using Selenium to simulate user actions in the browser.
 
+![](./Demo/demo.gif)
+
 ## __Two Ways to Initialize the Project__
 
 ### SETUP:
