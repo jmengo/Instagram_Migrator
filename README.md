@@ -14,10 +14,10 @@ This is a simple script using Selenium to simulate user actions in the browser.
 1) Navigate to the project directory in your terminal
 2) Execute the following command: 'python script.py --username='<username>' --password='<password>' --target='<target_username>'
 
-#### Method 2 - Jupyter Notebook:
-1) Launch the Jupyter Notebook
+#### Method 2 - Edit Variables:
+1) Open the script.py file
 2) Change the variables username, password, and target, to desired values
-3) Run notebook
+3) Execute the following command: 'python script.py'
 
 Libraries/Technologies:
 - Selenium: https://www.selenium.dev/

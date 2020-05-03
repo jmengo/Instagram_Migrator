@@ -20,7 +20,7 @@ class InstaBot:
         self.accessFollowing()
         time.sleep(2)
         self.viewAllUsers()
-        self.unfollowAllInView()
+        self.followAllInView()
 
     def initializeWebDriver(self):
         opt = webdriver.ChromeOptions()
