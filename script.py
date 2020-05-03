@@ -5,24 +5,22 @@ import argparse
 
 class InstaBot:
     def __init__(self,username,password,target):
-        try:
-            self.username = username
-            self.password = password
-            self.target = target
-            self.driver = self.initializeWebDriver()
-            self.driver.get('https://instagram.com')
-            time.sleep(2)
-            self.login()
-            time.sleep(3)
-            self.closeDialog()
-            time.sleep(1)
-            self.openTargetProfile()
-            time.sleep(2)
-            self.accessFollowing()
-            time.sleep(2)
-            self.followAllUsers()
-        except:
-            print('An Error Occured')
+        self.username = username
+        self.password = password
+        self.target = target
+        self.driver = self.initializeWebDriver()
+        self.driver.get('https://instagram.com')
+        time.sleep(2)
+        self.login()
+        time.sleep(3)
+        self.closeDialog()
+        time.sleep(1)
+        self.openTargetProfile()
+        time.sleep(2)
+        self.accessFollowing()
+        time.sleep(2)
+        self.viewAllUsers()
+        self.unfollowAllInView()
 
     def initializeWebDriver(self):
         opt = webdriver.ChromeOptions()
@@ -53,55 +51,47 @@ class InstaBot:
         
     def accessFollowing(self):
         self.driver.find_element_by_xpath("//a[@href='/{}/following/']".format(self.target)).click()
-        
-    def followAllUsers(self):
-        lastUser = self.driver.find_elements_by_tag_name('li')[-1]
-        self.driver.execute_script("arguments[0].scrollIntoView({behaviour: 'smooth'})",lastUser)
-        time.sleep(2)
-        scroll_box = self.driver.find_element_by_xpath('/html/body/div[4]/div/div[2]')
-        last_height,height = 0,1
-        while last_height != height:
-            last_height = height
-            time.sleep(1.5)
-            height = self.driver.execute_script("""
-                arguments[0].scrollTo(0, arguments[0].scrollHeight);
-                return arguments[0].scrollHeight;
-                """, scroll_box)
-            self.followAllInView()
-        self.driver.find_element_by_xpath('/html/body/div[4]/div/div[1]/div/div[2]/button').click()
-    
-    def unfollowAllUsers(self):
-        lastUser = self.driver.find_elements_by_tag_name('li')[-1]
-        self.driver.execute_script("arguments[0].scrollIntoView({behaviour: 'smooth'})",lastUser)
-        time.sleep(2)
-        scroll_box = self.driver.find_element_by_xpath('/html/body/div[4]/div/div[2]')
-        last_height,height = 0,1
-        while last_height != height:
-            self.unfollowAllInView()
-            last_height = height
-            time.sleep(1.5)
-            height = self.driver.execute_script("""
-                arguments[0].scrollTo(0, arguments[0].scrollHeight);
-                return arguments[0].scrollHeight;
-                """, scroll_box)
-        self.driver.find_element_by_xpath('/html/body/div[4]/div/div[1]/div/div[2]/button').click()
 
-            
+    def viewAllUsers(self):
+        lastUser = self.driver.find_elements_by_tag_name('li')[-1]
+        self.driver.execute_script("arguments[0].scrollIntoView({behaviour: 'smooth'})",lastUser)
+        time.sleep(2)
+        scroll_box = self.driver.find_element_by_xpath('/html/body/div[4]/div/div[2]')
+        last_height,height = 0,1
+        while last_height != height:
+            last_height = height
+            height = self.driver.execute_script("""
+                arguments[0].scrollTo(0, arguments[0].scrollHeight);
+                return arguments[0].scrollHeight;
+                """, scroll_box)
+            time.sleep(1.5)
+        allUsers = self.driver.find_elements_by_xpath('/html/body/div[4]/div/div[2]/ul/div//li')
+        print('{} total users'.format(len(allUsers)))
+
     def followAllInView(self):
         followButtons = self.driver.find_elements_by_xpath('/html/body/div[4]/div//button[text()="Follow"]')
+        print('{} unfollowed users detected'.format(len(followButtons)))
+        count = 0
         for button in followButtons:
             button.click()
+            count += 1
             time.sleep(0.25)
-    
+        print('{} users followed'.format(count))
+        self.driver.find_element_by_xpath('/html/body/div[4]/div/div[1]/div/div[2]/button').click()
+
     def unfollowAllInView(self):
         requested = self.driver.find_elements_by_xpath('/html/body/div[4]/div//button[text()="Following"]')
         following = self.driver.find_elements_by_xpath('/html/body/div[4]/div//button[text()="Requested"]')
+        print('{} followed users detected'.format(len(following) + len(requested)))
         allButtons = requested + following
+        count = 0
         for button in allButtons:
             button.click()
+            count += 1
             time.sleep(1)
-            unfollow = bot.driver.find_element_by_xpath('/html/body/div[5]/div/div/div[3]/button[1]')
+            unfollow = self.driver.find_element_by_xpath('/html/body/div[5]/div/div/div[3]/button[1]')
             unfollow.click()
+        print('{} users unfollowed'.format(count))
 
 def initializeArgParser():
     parser = argparse.ArgumentParser()
