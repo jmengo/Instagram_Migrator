@@ -76,6 +76,8 @@ class InstaBot:
             button.click()
             count += 1
             time.sleep(0.25)
+            if count%100 == 0:
+                time.sleep(3600)
         print('{} users followed'.format(count))
         self.driver.find_element_by_xpath('/html/body/div[4]/div/div[1]/div/div[2]/button').click()
 
