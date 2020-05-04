@@ -21,3 +21,7 @@ This is a simple script using Selenium to simulate user actions in the browser.
 
 Libraries/Technologies:
 - Selenium: https://www.selenium.dev/
+
+Areas for Further Development:
+- Wait for elements to load instead of using time.sleep()
+- Output and Save logs
